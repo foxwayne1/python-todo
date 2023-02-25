@@ -1,3 +1,6 @@
+# from functions import get_todos, write_todos
+import functions
+
 while True:
     user_action = input('Type ADD, SHOW, EDIT, COMPLETE or EXIT: ').lower()
     user_action = user_action.strip()
@@ -5,18 +8,15 @@ while True:
     if user_action.startswith('add'):
         todo = user_action[4:]
 
-        with open('todos.txt', 'r') as file:
-            todos = file.readlines()
+        todos = functions.get_todos('todos.txt')
 
         todos.append(todo + '\n')
 
-        with open('todos.txt', 'w') as file:
-            file.writelines(todos)
+        functions.write_todos(todos, 'todos.txt')
 
     elif user_action.startswith('show'):
 
-        with open('todos.txt', 'r') as file:
-            todos = file.readlines()
+        todos = functions.get_todos('todos.txt')
 
         for index, item in enumerate(todos):
             item = item.strip('\n')
@@ -30,14 +30,12 @@ while True:
 
             number = number - 1
 
-            with open('todos.txt', 'r') as file:
-                todos = file.readlines()
+            todos = functions.get_todos('todos.txt')
 
             new_todo = input('Enter new todo: ')
             todos[number] = new_todo + '\n'
 
-            with open('todos.txt', 'w') as file:
-                todos = file.writelines(todos)
+            functions.write_todos(todos, 'todos.txt')
 
         except ValueError:
             print('Your command is not valid.')
@@ -47,15 +45,14 @@ while True:
         try:
             number = int(user_action[9:])
 
-            with open('todos.txt', 'r') as file:
-                todos = file.readlines()
+            todos = functions.get_todos('todos.txt')
+
             index = number - 1
             todo_to_remove = todos[index].strip('\n')
 
             todos.pop(number - 1)
 
-            with open('todos.txt', 'w') as file:
-                todos = file.writelines(todos)
+            functions.write_todos(todos, 'todos.txt')
 
             message = f"Todo: {todo_to_remove} was removed from the list."
             print(message)
